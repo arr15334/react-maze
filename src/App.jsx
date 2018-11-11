@@ -7,8 +7,8 @@ export default class App extends React.Component {
     super(props)
 
     this.state = {
-      width: 5,
-      height: 8,
+      width: 8,
+      height: 12,
       maze: [[null]],
       player: {
         x: 0,
@@ -196,7 +196,7 @@ export default class App extends React.Component {
                   if (block === 'w') {
                     return(<div className='wall'>_</div>)
                   } else if (block === 'X') {
-                    return(<div className='goal'>*</div>)
+                    return(<div className='goal'>♥</div>)
                   } else if (block === 'p') {
                     return(
                     <div className={'player '+this.state.player.facing}>
