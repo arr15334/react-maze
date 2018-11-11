@@ -21,7 +21,7 @@ export default class App extends React.Component {
     this.moveDown = this.moveDown.bind(this)
     this.moveUp = this.moveUp.bind(this)
     this.moveLeft = this.moveLeft.bind(this)
-    this.checkWon = this.checkWon.bind(this)
+    // this.checkWon = this.checkWon.bind(this)
     this.buildMaze()
   }
 
@@ -38,44 +38,29 @@ export default class App extends React.Component {
         let newPlayer = []
         let xGoal = 0
         let yGoal = 0
-        let previousBlock = ''
-        let joinWalls = {}
-
-        for (let i = 0; i < mazeData.length; i++) {
-          let currentBlock = mazeData[0][i]
-          if (previousBlock === '-' && currentBlock ==='-') {
-            joinWalls[i] = true
-          } else {
-            joinWalls[i] = false
-          }
-          previousBlock = currentBlock
-        }
 
         for (let i = 0; i < mazeData.length; i++) {
           parsedMaze.push([])
           newPlayer.push([])
           for (let j = 0; j < mazeData[i].length; j++) {
-            if (!joinWalls.i) {
-              if (mazeData[i][j] === '+' || mazeData[i][j] === '-' || mazeData[i][j] === '|') {
-                parsedMaze[i].push('w')
-              } else if (mazeData[i][j] === 'p') {
-                parsedMaze[i].push('p')
-              } else if (mazeData[i][j] === 'g') {
-                parsedMaze[i].push('X')
-                xGoal = j
-                yGoal = i
-              } else {
-                parsedMaze[i].push('m')
-              }
-
-              if (mazeData[i][j] === 'p') {
-                newPlayer[i].push('p')
-                this.setState({
-                  player: {x:j, y:i, facing:'down'}
-                })
-              } else {
+            if (mazeData[i][j] === '+' || mazeData[i][j] === '-' || mazeData[i][j] === '|') {
+              parsedMaze[i].push('w')
+            } else if (mazeData[i][j] === 'p') {
+              parsedMaze[i].push('p')
+            } else if (mazeData[i][j] === 'g') {
+              parsedMaze[i].push('X')
+              xGoal = j
+              yGoal = i
+            } else {
+              parsedMaze[i].push('m')
+            }
+             if (mazeData[i][j] === 'p') {
+              newPlayer[i].push('p')
+              this.setState({
+                player: {x:j, y:i, facing:'down'}
+              })
+             } else {
                 newPlayer[i].push({})
-              }
             }
           }
         }
@@ -93,9 +78,6 @@ export default class App extends React.Component {
   }
 
   handleKeyDown (evt) {
-    if (this.checkWon()) {
-      console.log(this.state)
-    }
     if (evt.key === 'a' || evt.key ==='ArrowLeft') {
       this.moveLeft()
     } else if (evt.key === 's' || evt.key === 'ArrowDown') {
@@ -198,18 +180,6 @@ export default class App extends React.Component {
         maze
       })
     }
-  }
-
-  checkWon() {
-    const currentPosition = {
-      x: this.state.player.x,
-      y: this.state.player.y
-    }
-    const treasurePosition = {
-      x: this.state.end.x,
-      y: this.state.end.y
-    }
-    return currentPosition.x === treasurePosition.x && currentPosition.y === treasurePosition.y
   }
 
   render() {
